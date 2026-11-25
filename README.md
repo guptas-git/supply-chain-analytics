@@ -4,7 +4,11 @@ An ELT pipeline that loads 100K e-commerce orders and a public-holiday API into 
 
 > This rebuilds, on public data, the supply-chain dashboard and pipeline I built as a Data Analyst at Think and Wash. The original work used internal company data that I can't share.
 
-**Dashboard:** _Tableau Public link coming soon_ · build spec in [dashboard/README.md](dashboard/README.md)
+**Live Tableau dashboards:** [Delivery overview](https://public.tableau.com/app/profile/sourav.gupta7998/viz/Supply_Chain_Performance/SupplyChainPerformance) · [Seller follow-up](https://public.tableau.com/app/profile/sourav.gupta7998/viz/Supply_Chain_Performance_seller/Sellerfollow-up)
+
+[Download the packaged workbook](dashboard/Supply_Chain_Performance.twbx) · [Build and validation notes](dashboard/README.md)
+
+[![Delivery overview: order volume, delivery reliability, state map and customer reviews](dashboard/dashboard.png)](https://public.tableau.com/app/profile/sourav.gupta7998/viz/Supply_Chain_Performance/SupplyChainPerformance)
 
 ## Problem
 

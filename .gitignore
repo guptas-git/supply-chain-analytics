@@ -2,3 +2,7 @@ data/
 exports/
 __pycache__/
 .DS_Store
+dashboard/Data/
+*.twbr
+.venv/
+hyperd.log
