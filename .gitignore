@@ -6,3 +6,7 @@ dashboard/Data/
 *.twbr
 .venv/
 hyperd.log
+.pytest_cache/
+build/
+dist/
+*.egg-info/

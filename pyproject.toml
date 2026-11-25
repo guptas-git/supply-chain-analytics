@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "supply-chain-analytics"
+version = "0.1.0"
+description = "Lightweight inventory calculations for supply-chain analysis"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Sourav Gupta"}]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "build>=1"]
+
+[project.urls]
+Repository = "https://github.com/guptas-git/supply-chain-analytics"
+Issues = "https://github.com/guptas-git/supply-chain-analytics/issues"
+Changelog = "https://github.com/guptas-git/supply-chain-analytics/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

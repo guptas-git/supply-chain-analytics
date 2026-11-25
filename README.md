@@ -1,4 +1,62 @@
-# Supply Chain Analytics: Delivery Performance
+# Supply Chain Analytics
+
+Small, dependency-free inventory calculations, with a worked delivery-performance case study using Python, PostgreSQL and Tableau.
+
+[![Automated Tests](https://github.com/guptas-git/supply-chain-analytics/actions/workflows/tests.yml/badge.svg)](https://github.com/guptas-git/supply-chain-analytics/actions/workflows/tests.yml)
+
+## Inventory toolkit
+
+Three functions for analysts who need reusable calculations without a forecasting framework or database setup:
+
+| Function | What it returns |
+|---|---|
+| `safety_stock(demand_std, lead_time, z_score=1.65)` | Buffer stock, rounded up to whole units |
+| `reorder_point(daily_demand, lead_time, safety_stock=0)` | Expected lead-time demand plus buffer stock, rounded up |
+| `inventory_turnover(cogs, average_inventory)` | Cost of goods sold divided by average inventory value |
+
+Requires Python 3.10 or newer. The installed package uses only the standard library.
+
+```bash
+python -m pip install git+https://github.com/guptas-git/supply-chain-analytics.git
+```
+
+For the first release specifically, append `@v0.1.0` to the Git URL.
+
+```python
+from supply_chain_analytics import inventory_turnover, reorder_point, safety_stock
+
+safety_stock(demand_std=10, lead_time=4)  # 33 units
+reorder_point(daily_demand=100, lead_time=7, safety_stock=200)  # 900 units
+inventory_turnover(cogs=10000, average_inventory=2000)  # 5.0 times per period
+```
+
+Run the complete example with `python examples/inventory_basics.py` after cloning and installing the package.
+
+### Assumptions and input rules
+
+- Safety stock uses independent demand between periods and constant lead time. Supply the demand standard deviation per day and lead time in days, or use another matching period for both. The default z-score approximates a 95% one-sided normal cycle-service level; it is not a fill-rate guarantee.
+- Reorder point uses average daily demand and lead time in days. Compare it with inventory position: on-hand stock plus on-order stock minus backorders.
+- Turnover needs cost of goods sold and average inventory valued on the same cost basis, in the same currency and reporting period. Average inventory must be positive.
+- Calculations use floating-point arithmetic. Inputs must be finite, non-negative real numbers. Invalid numeric values raise `ValueError`; booleans and non-numeric values raise `TypeError`. Results outside the supported numeric range raise `ValueError`.
+
+## Development and contributing
+
+```bash
+python -m pip install -e ".[dev]"
+python -m pytest -v
+python -m build
+```
+
+GitHub Actions installs the package, runs the tests and executes the example on Python 3.10–3.13. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and [CHANGELOG.md](CHANGELOG.md) for releases.
+
+## Roadmap
+
+- [ ] ABC inventory classification
+- [ ] Data validation for user-supplied tables
+- [ ] Demand forecasting with documented backtests
+- [ ] PyPI distribution
+
+## Delivery-performance case study
 
 An ELT pipeline that loads 100K e-commerce orders and a public-holiday API into Postgres. It cleans and checks the data with SQL, computes delivery and supplier KPIs, flags exceptions that need action, and feeds a Tableau dashboard.
 
@@ -103,3 +161,9 @@ To automate it, schedule a daily run with cron:
 - **Live dashboard:** connect Tableau Server or Cloud straight to Postgres, so it refreshes without re-publishing.
 - **Explain the Feb–Mar 2018 drop:** join carrier data to find the cause.
 - **Migrate to dbt:** move the SQL into dbt for lineage and tests once there's more than one pipeline.
+
+## License
+
+Original software, including the installable inventory package, is licensed under the [MIT License](LICENSE).
+
+The Olist dataset, transformed data exports and data-derived dashboard assets retain the dataset's [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) terms and attribution. The MIT License does not relicense those materials. The Python wheel contains the inventory package and its license, without the Olist data or Tableau assets.
